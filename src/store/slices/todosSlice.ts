@@ -32,11 +32,11 @@ const todosSlice = createSlice({
     },
     addTodo: (state, { payload }) => {
       let id = 0;
-      if (state.todos[0].id >= 6) {
-        id = state.todos[0].id + 1;
-      } else {
-        id = state.todos[state.todos.length - 1].id + 1;
-      }
+      state.todos[0]
+        ? state.todos[0].id >= 6
+          ? (id = state.todos[0].id + 1)
+          : (id = state.todos[state.todos.length - 1].id + 1)
+        : (id += 1);
 
       let obj = {
         id,
@@ -44,11 +44,7 @@ const todosSlice = createSlice({
         text: payload,
       };
 
-      /* state.todos.unshift(obj); */
-
-      let reverseArr = state.todos.reverse();
-      reverseArr.push(obj);
-      reverseArr.reverse();
+      state.todos.push(obj);
     },
     editTodo: (state, { payload }) => {
       state.todos.forEach((elem) => {
